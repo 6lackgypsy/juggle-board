@@ -39,17 +39,13 @@ const TaskCard = ({ task, deleteTask, updateTask }: TaskCardProps) => {
     transform: CSS.Transform.toString(transform)
   }
 
-  if (isDragging) {
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        className="bg-mainBgColor p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl cursor-grab relative opacity-30 border-2 border-rose-500"
-      />
-    )
-  }
-
-  return editMode ? (
+  return isDragging ? (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-mainBgColor p-2.5 h-[100px] min-h-[100px] flex items-center text-left rounded-xl cursor-grab relative opacity-30 border-2 border-rose-500"
+    />
+  ) : editMode ? (
     <div
       ref={setNodeRef}
       style={style}
@@ -89,7 +85,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: TaskCardProps) => {
       </p>
       {mouseIsOver && (
         <button
-          className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100"
+          className="stroke-white hover:stroke-rose-500 absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100"
           onClick={() => deleteTask(task.id)}
         >
           <DeleteIcon />

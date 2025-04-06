@@ -47,17 +47,13 @@ const ColumnContainer = ({
 
   const style = { transition, transform: CSS.Transform.toString(transform) }
 
-  if (isDragging) {
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        className="bg-columnBgColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col opacity-40 border-2 border-rose-500"
-      />
-    )
-  }
-
-  return (
+  return isDragging ? (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-columnBgColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col opacity-40 border-2 border-rose-500"
+    />
+  ) : (
     <div
       ref={setNodeRef}
       style={style}
@@ -71,7 +67,7 @@ const ColumnContainer = ({
       >
         <div className="flex gap-2">
           <div className="flex justify-center items-center bg-columnBgColor px-2 py-1 text-sm rounded-full">
-            0
+            {tasks.length}
           </div>
           {editMode ? (
             <input
@@ -93,7 +89,7 @@ const ColumnContainer = ({
           )}
         </div>
         <button
-          className="stroke-gray-500 hover:stroke-white hover:bg-columnBgColor rounded transition duration-100 px-1 py-2"
+          className="stroke-gray-500 hover:stroke-rose-500 hover:bg-columnBgColor rounded transition duration-100 px-1 py-2"
           onClick={() => deleteColumn(column.id)}
         >
           <DeleteIcon />
@@ -112,10 +108,11 @@ const ColumnContainer = ({
         </SortableContext>
       </div>
       <button
-        className="flex gap-4 items-center justify-center border-2 border-columnBgColor rounded-md p-4 border-x-columnBgColor hover:bg-mainBgColor hover:text-rose-500 active:bg-black"
+        className="flex gap-4 items-center justify-center border-2 border-columnBgColor rounded-md p-4 border-x-columnBgColor opacity-70 hover:opacity-100 hover:bg-mainBgColor active:bg-black"
         onClick={() => createTask(column.id)}
       >
-        <AddIcon /> Add Task
+        <AddIcon />
+        Add Task
       </button>
     </div>
   )
