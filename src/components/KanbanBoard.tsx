@@ -13,16 +13,27 @@ import { Column, Id, Task } from "../types"
 import ColumnContainer from "./ColumnContainer"
 import AddIcon from "../icons/AddIcon"
 import { createPortal } from "react-dom"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import TaskCard from "./TaskCard"
 
 const KanbanBoard = () => {
-  const [columns, setColumns] = useState<Column[]>([])
+  const [columns, setColumns] = useState<Column[]>(() => {
+    const storedColumns = localStorage.getItem("columns")
+    return storedColumns ? JSON.parse(storedColumns) : []
+  })
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const storedTasks = localStorage.getItem("tasks")
+    return storedTasks ? JSON.parse(storedTasks) : []
+  })
   const [activeColumn, setActveColumn] = useState<Column | null>(null)
   const [activeTask, setActiveTask] = useState<Task | null>(null)
-  const [tasks, setTasks] = useState<Task[]>([])
 
   const columnIds = useMemo(() => columns.map((column) => column.id), [columns])
+
+  useEffect(() => {
+    localStorage.setItem("columns", JSON.stringify(columns))
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [columns, tasks])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
